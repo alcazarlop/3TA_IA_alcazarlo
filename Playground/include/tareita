@@ -1,0 +1,13 @@
+ 
+
+[DOING] Implementar una Grid o Board.
+[DOING] Implementar un sistema de Render independiente.
+[DOING] Implementar la clase Agente.
+
+- Implementar un personaje que se pueda mover por la grid. (El movimiento será controlado por el jugador, usando las flechas de dirección)
+- Implementar un sistema para añadir muros y targets. (Podeis usar los controles que considereis oportunos, mi recomendación es implementarlo usando los clicks del ratón por comodidad de uso)
+- Implementar patrones de movimiento: Random, Patrol y Seek
+- Comprobación: Intercambio de Agentes.
+
+- Opcional: Implementar detección de colisiones.
+- Opcional: Implementar busqueda de caminos usando el sistema de tiles visitados.
