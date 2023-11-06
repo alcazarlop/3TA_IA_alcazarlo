@@ -4,9 +4,9 @@
 #include <vector>
 #include <cstdint>
 #include <esat/math.h>
-#include "Object.hpp"
+#include "Node.hpp"
 
-class Drawable : public Object {
+class Drawable : public Node {
 public:
 	Drawable();
 	virtual ~Drawable();
@@ -18,7 +18,7 @@ public:
 	esat::Vec2* init_points() { return init_points_; }
 	uint8_t num_points() const { return num_points_; }
 
-	virtual void transform() = 0;
+	void transform();
 
 private:
 	uint8_t num_points_;

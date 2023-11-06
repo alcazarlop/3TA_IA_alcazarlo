@@ -8,8 +8,6 @@ public:
 	Agent();
 	~Agent();
 
-	virtual void transform() override;
-
 private:
 
 

@@ -1,18 +1,13 @@
 
 #pragma once 
 
-#include <vector>
-#include <cstdint>
-#include "Drawable.hpp"
+class Grid;
 
 class Render {
 public:
 	Render(){}
 	~Render(){}
 
-	void draw(std::vector<Drawable*> drawables);
-
-private:	
-
+	void draw(Grid& grid);
 
 };
