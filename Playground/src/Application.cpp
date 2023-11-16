@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Renderer.h"
 #include "Grid.h"
+#include "Agent.h"
 
 #include <cstdio>
 
@@ -72,17 +73,7 @@ int Application::Run(){
 		while(SDL_PollEvent(&event)){
 			if(event.type == SDL_QUIT) isRunning = 0;
 			if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) isRunning = 0;
-
-			grid.AgentHandler();
-			// if(SDL_BUTTON(SDL_GetMouseState(&mouse_x, &mouse_y))) {
-				// printf("Mouse X %d, Mouse Y %d\n", mouse_x, mouse_y);
-			// 	for(int i = 0; i < grid.size(); ++i){
-			// 		if(grid.list()[i]->isInsideBounds(mouse_x, mouse_y)){
-			// 			printf("Node ID: %d Node PosX: %d Node PosY: %d\n", grid.GetNode(i)->id(), grid.GetNode(i)->position().x, grid.GetNode(i)->position().y);
-			// 		}
-			// 	}
-			// }
-
+			grid.AgentHandler(&event);
 		}
 
 	}

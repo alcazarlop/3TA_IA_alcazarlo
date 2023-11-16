@@ -4,8 +4,9 @@
 Node::Node(int x, int y, unsigned int id, int size){
 	position_.x = x;
 	position_.y = y;
-	index = id;
+	index_ = id;
 	size_ = size;
+	isLocked_ = false;
 }
 
 Node::~Node(){

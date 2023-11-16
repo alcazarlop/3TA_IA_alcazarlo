@@ -2,12 +2,9 @@
 #include "Grid.h"
 #include "Drawable.h"
 #include "Application.h"
-#include "SDL_video.h"
-#include "SDL_mouse.h"
 #include "Renderer.h"
 #include "Agent.h"
-
-bool Grid::Grid_Already_Exist = false;
+#include "Wall.h"
 
 Grid::Grid(){
 
@@ -56,15 +53,27 @@ void Grid::CreateGrid(unsigned int CellSize) {
 	}
 }
 
-void Grid::AgentHandler() {
+void Grid::AgentHandler(SDL_Event* event) {
 
 	int mouse_x = 0;
 	int mouse_y = 0;
 
-	if(SDL_BUTTON(SDL_GetMouseState(&mouse_x, &mouse_y)) == SDL_BUTTON_LEFT){
+	if(event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT){
+		SDL_GetMouseState(&mouse_x, &mouse_y);
 		for(unsigned int i = 0; i < node_list.size(); ++i){
-			if(node_list[i]->isInsideBounds(mouse_x, mouse_y)){
+			if(node_list[i]->isInsideBounds(mouse_x, mouse_y) && !node_list[i]->isLocked()){
 				Agent agent(node_list[i]->position().x, node_list[i]->position().y, node_list[i]->size());
+				node_list[i]->lock();
+			}
+		}
+	}
+
+	if(event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT){
+		SDL_GetMouseState(&mouse_x, &mouse_y);
+		for(unsigned int i = 0; i < node_list.size(); ++i){
+			if(node_list[i]->isInsideBounds(mouse_x, mouse_y) && !node_list[i]->isLocked()){
+				Wall wall(node_list[i]->position().x, node_list[i]->position().y, node_list[i]->size());
+				node_list[i]->lock();
 			}
 		}
 	}
