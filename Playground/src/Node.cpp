@@ -1,12 +1,11 @@
 
 #include "Node.h"
 
-Node::Node(int x, int y, unsigned int id, int size){
+Node::Node(int x, int y, int size, Type t_id){
 	position_.x = x;
 	position_.y = y;
-	index_ = id;
 	size_ = size;
-	isLocked_ = false;
+	type_id_ = t_id;
 }
 
 Node::~Node(){

@@ -5,15 +5,16 @@
 
 class Node {
 public:
-	Node(int x, int y, unsigned int id, int size);
+
+	enum Type {
+		kEmpty = 0,
+		kAgent = 1,
+		kObstacle = 2,
+		kTarget = 3,
+	};
+
+	Node(int x, int y, int size, Type t_id);
 	~Node();
-
-	unsigned int id() const { return index_; }
-	int size() const { return size_; }
-	SDL_Point position() const { return position_; }
-	bool isLocked() const { return isLocked_; }
-	void lock() { isLocked_ = true; }
-
 	bool isInsideBounds(int x, int y);
 
 private:
@@ -21,7 +22,6 @@ private:
 
 	SDL_Point position_;
 	int size_;
-	unsigned int index_;
-	bool isLocked_;
+	int type_id_;
 
 };

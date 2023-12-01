@@ -4,7 +4,6 @@
 #include "Application.h"
 #include "Renderer.h"
 #include "Agent.h"
-#include "Wall.h"
 
 Grid::Grid(){
 
@@ -14,10 +13,10 @@ Grid::~Grid(){
 
 }
 
-void Grid::CreateGrid(unsigned int CellSize) {
+void Grid::CreateGrid(SDL_Window* window, unsigned int CellSize) {
 	int window_x = 0;
 	int window_y = 0; 
-	SDL_GetWindowSize(Application::Window(), &window_x, &window_y);
+	SDL_GetWindowSize(window, &window_x, &window_y);
 	unsigned int n_cols = window_x / CellSize;
 	unsigned int n_rows = window_y / CellSize;
 
@@ -48,43 +47,34 @@ void Grid::CreateGrid(unsigned int CellSize) {
 	}
 
 	for(unsigned int i = 0; i < n_rows * n_cols; ++i){
-		Node* node = new Node((i % n_cols) * CellSize, (i / n_cols) * CellSize, i, CellSize);
+		Node* node = new Node((i % n_cols) * CellSize, (i / n_cols) * CellSize, CellSize, Node::Type::kEmpty);
 		node_list.push_back(node);
 	}
 }
 
 void Grid::AgentHandler(SDL_Event* event) {
 
-	int mouse_x = 0;
-	int mouse_y = 0;
+	// int mouse_x = 0;
+	// int mouse_y = 0;
 
-	if(event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT){
-		SDL_GetMouseState(&mouse_x, &mouse_y);
-		for(unsigned int i = 0; i < node_list.size(); ++i){
-			if(node_list[i]->isInsideBounds(mouse_x, mouse_y) && !node_list[i]->isLocked()){
-				Agent agent(node_list[i]->position().x, node_list[i]->position().y, node_list[i]->size());
-				node_list[i]->lock();
-			}
-		}
-	}
+	// if(event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT){
+	// 	SDL_GetMouseState(&mouse_x, &mouse_y);
+	// 	for(unsigned int i = 0; i < node_list.size(); ++i){
+	// 		if(node_list[i]->isInsideBounds(mouse_x, mouse_y) && !node_list[i]->isLocked()){
+	// 			Agent agent(node_list[i]->position().x, node_list[i]->position().y, node_list[i]->size());
+	// 			node_list[i]->lock();
+	// 		}
+	// 	}
+	// }
 
-	if(event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT){
-		SDL_GetMouseState(&mouse_x, &mouse_y);
-		for(unsigned int i = 0; i < node_list.size(); ++i){
-			if(node_list[i]->isInsideBounds(mouse_x, mouse_y) && !node_list[i]->isLocked()){
-				Wall wall(node_list[i]->position().x, node_list[i]->position().y, node_list[i]->size());
-				node_list[i]->lock();
-			}
-		}
-	}
+	// if(event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT){
+	// 	SDL_GetMouseState(&mouse_x, &mouse_y);
+	// 	for(unsigned int i = 0; i < node_list.size(); ++i){
+	// 		if(node_list[i]->isInsideBounds(mouse_x, mouse_y) && !node_list[i]->isLocked()){
+	// 			Wall wall(node_list[i]->position().x, node_list[i]->position().y, node_list[i]->size());
+	// 			node_list[i]->lock();
+	// 		}
+	// 	}
+	// }
 
 }
-
-Node* Grid::GetNode(unsigned int index) const {
-	return node_list[index]; 
-}
-
-std::vector<Node*> Grid::GetList() const {
-	return node_list;
-}
-

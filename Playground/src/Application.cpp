@@ -6,10 +6,6 @@
 
 #include <cstdio>
 
-bool Application::Application_Already_Exist = false;
-SDL_Window* Application::window = NULL;
-SDL_Renderer* Application::renderer = NULL;
-
 Application::Application(){
 	renderer = NULL;
 	isRunning = 0;
@@ -19,14 +15,6 @@ Application::~Application(){
 
 }
 
-Application* Application::CreateApplication(){
-	if(!Application::Application_Already_Exist){
-		Application::Application_Already_Exist = true;
-		return new Application();
-	}
-	return nullptr;
-}
-
 int Application::Init(){
 
 	if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -34,15 +22,15 @@ int Application::Init(){
 		return isRunning = -1;
 	}
 
-	if(nullptr == (Application::window = SDL_CreateWindow("Playground", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, NULL))){
+	if(nullptr == (window = SDL_CreateWindow("Playground", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, NULL))){
 		printf("[ERROR] Could not create window: %s\n", SDL_GetError());
 		SDL_Quit();
 		return isRunning = -2;
 	}
 
-	if(nullptr == (Application::renderer = SDL_CreateRenderer(Application::window, -1, SDL_RENDERER_PRESENTVSYNC))){
+	if(nullptr == (renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC))){
 		printf("[ERROR] Could not create renderer: %s\n", SDL_GetError());
-		SDL_DestroyWindow(Application::window);
+		SDL_DestroyWindow(window);
 		SDL_Quit();
 		return isRunning = -3;
 	}
@@ -55,20 +43,20 @@ int Application::Run(){
 	Init();
 
 	Grid grid;
-	grid.CreateGrid(32);
+	grid.CreateGrid(window, 32);
 
-	Renderer* render = Renderer::CreateRenderer();
+	Renderer render;
 
 	SDL_Event event;
 
 	while(isRunning){
 
-		SDL_SetRenderDrawColor(Application::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderClear(Application::renderer);
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderClear(renderer);
 
-		render->Draw();
+		render.Draw(renderer);
 
-		SDL_RenderPresent(Application::renderer);
+		SDL_RenderPresent(renderer);
 
 		while(SDL_PollEvent(&event)){
 			if(event.type == SDL_QUIT) isRunning = 0;
@@ -85,7 +73,7 @@ int Application::Run(){
 }
 
 void Application::Quit(){
-	SDL_DestroyWindow(Application::window);
-	SDL_DestroyRenderer(Application::renderer);
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 }

@@ -10,12 +10,9 @@ public:
 	Grid();
 	~Grid();
 
-	void CreateGrid(unsigned int CellSize);
+	void CreateGrid(SDL_Window* window, unsigned int CellSize);
 	void AgentHandler(SDL_Event* event);
 	
-	Node* GetNode(unsigned int index) const;
-	std::vector<Node*> GetList() const;
-
 private:
 	Grid(Grid&) = delete;
 	Grid(Grid&&) = delete;
